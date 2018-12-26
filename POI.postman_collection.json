@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "19153d3b-5c7d-4c2b-b228-14bfa88bcb13",
+		"name": "POI",
+		"description": "## POI Postman Collection\n\nThis collection contains examples demonstrating how the endpoints of POI web app\ncan be used.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "Create single POI",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8000/pois",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pois"
+							]
+						},
+						"description": "Adds a new POI to the system (input params TBA)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all POIs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8000/pois",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pois"
+							]
+						},
+						"description": "Returns all POIs found in the system (pagination and query filters TBA)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get POI by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8000/pois/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pois",
+								"11"
+							]
+						},
+						"description": "Returns a single POI by its database ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update single POI by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8000/pois/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pois",
+								"11"
+							]
+						},
+						"description": "Updates a single POI in the system (input params TBA) - the POI is specified by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete single POI by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8000/pois/11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"pois",
+								"11"
+							]
+						},
+						"description": "Removes a single POI from the system - the POI is specified by its ID"
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD operations on POI objects"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ce8a7a67-a4a9-4cb2-8ccf-db9a1d756ee1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a7d4c2b0-1546-4668-94a9-7cc22cd8680e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
