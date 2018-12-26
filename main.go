@@ -10,13 +10,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// Poi represents a point-of-interest
-type Poi struct {
+// POI represents a point-of-interest
+type POI struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
-var pois []Poi
+var pois []POI
 
 // Main application function
 func main() {
@@ -31,18 +31,48 @@ func main() {
 
 // Register available routes to router
 func registerRoutes(router *mux.Router) {
-	router.HandleFunc("/pois", GetPois).Methods(http.MethodGet)
-	router.HandleFunc("/pois/{id}", GetPoiByID).Methods(http.MethodGet)
+	router.HandleFunc("/pois", GetPOIs).Methods(http.MethodGet)
+	router.HandleFunc("/pois/{id:[0-9]+}", GetPOIByID).Methods(http.MethodGet)
+	router.HandleFunc("/pois", CreatePOI).Methods(http.MethodPost)
+	router.HandleFunc("/pois/{id:[0-9]+}", UpdatePOI).Methods(http.MethodPut)
+	router.HandleFunc("/pois/{id:[0-9]+}", DeletePOI).Methods(http.MethodDelete)
 }
 
-// GetPois returns all available POIs from database
-func GetPois(w http.ResponseWriter, r *http.Request) {
-	pois = append(pois, Poi{ID: "12", Name: "First Point"})
-	pois = append(pois, Poi{ID: "24", Name: "Second Point"})
+// CreatePOI creates a new point-of-interest with the provided data
+func CreatePOI(w http.ResponseWriter, r *http.Request) {
+	// TODO: Add validator for create/update
+	fmt.Println("POI created")
+	w.WriteHeader(http.StatusCreated)
+}
+
+// GetPOIs returns all available POIs from database
+func GetPOIs(w http.ResponseWriter, r *http.Request) {
+	pois = nil
+	pois = append(pois, POI{ID: "12", Name: "First POI"})
+	pois = append(pois, POI{ID: "24", Name: "Second POI"})
+
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(pois)
 }
 
-// GetPoi returns the specified poi
-func GetPoiByID(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("Fetching a poi..")
+// UpdatePOI creates a new point-of-interest with the provided data
+func UpdatePOI(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("POI updated")
+	w.WriteHeader(http.StatusOK)
+}
+
+// GetPOIByID returns the specified POI
+func GetPOIByID(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(POI{ID: vars["id"], Name: "POI by its ID"})
+}
+
+// DeletePOI deletes an existing POI from the database
+func DeletePOI(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("POI deleted")
+	w.WriteHeader(http.StatusOK)
 }
