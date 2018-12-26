@@ -32,7 +32,7 @@ func main() {
 // Register available routes to router
 func registerRoutes(router *mux.Router) {
 	router.HandleFunc("/pois", GetPois).Methods(http.MethodGet)
-	router.HandleFunc("/pois/{id}", GetPoi).Methods(http.MethodGet)
+	router.HandleFunc("/pois/{id}", GetPoiByID).Methods(http.MethodGet)
 }
 
 // GetPois returns all available POIs from database
@@ -43,6 +43,6 @@ func GetPois(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetPoi returns the specified poi
-func GetPoi(w http.ResponseWriter, r *http.Request) {
+func GetPoiByID(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("Fetching a poi..")
 }
