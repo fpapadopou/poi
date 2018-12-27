@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -20,9 +21,11 @@ var pois []POI
 
 // Main application function
 func main() {
+	// Create a router and register all routes
 	router := mux.NewRouter()
-
 	registerRoutes(router)
+
+	// Serve POIs to the people
 	if err := http.ListenAndServe(":"+os.Getenv("APP_HTTP_PORT"), router); err != nil {
 		log.Fatalf("Failed to start application: %v", err)
 	}
@@ -31,6 +34,10 @@ func main() {
 
 // Register available routes to router
 func registerRoutes(router *mux.Router) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write(bytes.NewBufferString("Hiya!").Bytes())
+	}).Methods(http.MethodGet)
+
 	router.HandleFunc("/pois", GetPOIs).Methods(http.MethodGet)
 	router.HandleFunc("/pois/{id:[0-9]+}", GetPOIByID).Methods(http.MethodGet)
 	router.HandleFunc("/pois", CreatePOI).Methods(http.MethodPost)
