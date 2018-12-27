@@ -1,0 +1,19 @@
+# File created following the instructions in https://docs.docker.com/compose/compose-file
+version: "3"
+
+services:
+  database:
+    # Configured as per https://hub.docker.com/_/postgres
+    container_name: poidb
+    restart: always
+    # Set a context where the database Dockerfile is located
+    build:
+      context: ./db-docker-context
+      args:
+        POSTGIS_MAJOR: 2.5
+        POSTGIS_VERSION: 2.5.1+dfsg-1.pgdg90+1
+    # Configure exposed (host) IP:port and internal net (container) port
+    ports:
+      - "${DB_HOST}:${DB_PORT}:${DB_PORT}"
+    # Import all environment variables found in the .env file
+    env_file: .env
