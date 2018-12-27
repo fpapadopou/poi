@@ -1,14 +1,20 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
+	"github.com/caarlos0/env"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
+
+type config struct {
+	ServerPort string `env:"APP_HTTP_PORT" envDefault:"8000"`
+}
 
 // POI represents a point-of-interest
 type POI struct {
@@ -20,10 +26,22 @@ var pois []POI
 
 // Main application function
 func main() {
-	router := mux.NewRouter()
+	// Load .env file config, if any
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, loading system-wide env vars..")
+	}
+	// Parse environment configuration
+	var cfg config
+	if err := env.Parse(&cfg); err != nil {
+		log.Fatalf("Failed to parse environment configuration: %v", err)
+	}
 
+	// Create a router and register all routes
+	router := mux.NewRouter()
 	registerRoutes(router)
-	if err := http.ListenAndServe(":"+os.Getenv("APP_HTTP_PORT"), router); err != nil {
+
+	// Serve POIs to the people
+	if err := http.ListenAndServe(":"+cfg.ServerPort, router); err != nil {
 		log.Fatalf("Failed to start application: %v", err)
 	}
 	fmt.Println("Waiting for connections..")
@@ -31,6 +49,10 @@ func main() {
 
 // Register available routes to router
 func registerRoutes(router *mux.Router) {
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write(bytes.NewBufferString("Hiya!").Bytes())
+	}).Methods(http.MethodGet)
+
 	router.HandleFunc("/pois", GetPOIs).Methods(http.MethodGet)
 	router.HandleFunc("/pois/{id:[0-9]+}", GetPOIByID).Methods(http.MethodGet)
 	router.HandleFunc("/pois", CreatePOI).Methods(http.MethodPost)
