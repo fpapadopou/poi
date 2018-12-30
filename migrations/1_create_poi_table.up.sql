@@ -11,6 +11,7 @@ CREATE TABLE public.poi
 );
 
 -- Add location as a 2D POINT geometry type (ESRI compatible - SRID 4326)
+-- Column is added with AddGeometryColumn function in order to allow usage of OpenGIS support functions
 SELECT AddGeometryColumn('public','poi','location','4326','POINT',2);
 
 -- Add a new spatial index
