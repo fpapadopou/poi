@@ -3,6 +3,8 @@ CREATE TABLE public.poi
 (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
+    longitude DOUBLE PRECISION,
+    latitude DOUBLE PRECISION,
     category JSONB,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE
