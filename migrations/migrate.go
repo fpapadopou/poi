@@ -3,13 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/caarlos0/env"
+	config "github.com/fpapadopou/poi/config"
 	"github.com/go-pg/migrations"
 	"github.com/go-pg/pg"
-	"github.com/joho/godotenv"
 )
 
 const usageText = `This program runs "command" on the db. Supported commands are:
@@ -24,21 +22,9 @@ First time, initialize migrations table:
   go run migrations/*.go init
 `
 
-type config struct {
-	DatabaseHost string `env:"DB_HOST" envDefault:"127.0.0.1"`
-	DatabasePort string `env:"DB_PORT" envDefault:"5432"`
-}
-
 func main() {
-	// Load .env file config, if any
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found, loading system-wide env vars..")
-	}
-	// Parse environment configuration
-	var cfg config
-	if err := env.Parse(&cfg); err != nil {
-		log.Fatalf("Failed to parse environment configuration: %v", err)
-	}
+	// Load db config
+	dbConfig := config.GetDatabaseConfig()
 
 	// Parse input params
 	flag.Usage = usage
@@ -46,9 +32,10 @@ func main() {
 
 	// Connect to Postgres and perform the specified command
 	db := pg.Connect(&pg.Options{
-		User:     "postgres",
-		Database: "postgres",
-		Addr:     cfg.DatabaseHost + ":" + cfg.DatabasePort,
+		User:     dbConfig.User,
+		Database: dbConfig.Database,
+		Addr:     dbConfig.Host + ":" + dbConfig.Port,
+		Password: dbConfig.Password,
 	})
 
 	oldVersion, newVersion, err := migrations.Run(db, flag.Args()...)
