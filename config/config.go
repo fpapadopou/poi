@@ -4,21 +4,13 @@ import (
 	"log"
 
 	"github.com/caarlos0/env"
+	model "github.com/fpapadopou/poi/datastore/model"
 	"github.com/joho/godotenv"
 )
 
 // ApplicationConfig contains generic application configuration info
 type ApplicationConfig struct {
 	Port string `env:"APP_HTTP_PORT" envDefault:"8000"`
-}
-
-// DatabaseConfig contains database connection info
-type DatabaseConfig struct {
-	Host     string `env:"DB_HOST" envDefault:"127.0.0.1"`
-	Port     string `env:"DB_PORT" envDefault:"5432"`
-	Database string `env:"DB_NAME" envDefault:"postgres"`
-	User     string `env:"DB_USER" envDefault:"postgres"`
-	Password string `env:"DB_PASSWORD" envDefault:""`
 }
 
 // GetApplicationConfig returns a struct with database connection info
@@ -33,10 +25,10 @@ func GetApplicationConfig() ApplicationConfig {
 }
 
 // GetDatabaseConfig returns a struct with database connection info
-func GetDatabaseConfig() DatabaseConfig {
+func GetDatabaseConfig() model.DatabaseConfig {
 	loadEnv()
 	// Parse environment configuration
-	var cfg DatabaseConfig
+	var cfg model.DatabaseConfig
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatalf("Failed to parse database configuration: %v", err)
 	}
