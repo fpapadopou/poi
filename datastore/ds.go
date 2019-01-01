@@ -10,8 +10,8 @@ type Database interface {
 	Connect(dbConfig model.DatabaseConfig) (*model.Connection, error)
 }
 
-// POIManager interface contains POI data insertion/retrieval functionality
-type POIManager interface {
+// POIService interface contains POI data insertion/retrieval functionality
+type POIService interface {
 	GetAll() ([]*model.POIs, error)
 	GetSinglePOIByID(ID model.PrimaryKey) (*model.POIs, error)
 }
@@ -20,5 +20,5 @@ type POIManager interface {
 type DS struct {
 	Connection *model.Connection
 	DB         *Database
-	POIs       *POIManager
+	POIs       *POIService
 }
