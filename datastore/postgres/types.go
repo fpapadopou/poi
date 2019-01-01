@@ -1,6 +1,6 @@
 // +build psql
 
-package model
+package database
 
 import (
 	"github.com/go-pg/pg"
