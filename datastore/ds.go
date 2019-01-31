@@ -2,17 +2,20 @@
 package datastore
 
 import (
-	model "github.com/fpapadopou/poi/datastore/model"
+	"github.com/fpapadopou/poi/datastore/database"
 )
-
-// POIService interface contains POI data insertion/retrieval functionality
-type POIService interface {
-	GetAll() ([]*model.POIs, error)
-	GetSinglePOIByID(ID model.PrimaryKey) (*model.POIs, error)
-}
 
 // DS (DataStore) provides all the database functionality used by the app
 type DS struct {
-	Connection *model.Connection
-	POIs       *POIService
+	DatabaseProvider *database.POIService
+}
+
+// NewDS creates a new DataStore and returns a reference to it
+func NewDS(dbConfig database.Config) *DS {
+	connection := database.Connect(dbConfig)
+	service := &database.POIService{
+		Conn: connection,
+	}
+
+	return &DS{DatabaseProvider: service}
 }
