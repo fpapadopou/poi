@@ -13,3 +13,9 @@
 
 # Environment configuration
 .env
+
+# IDE files
+.idea/*
+
+# Vendor files (if any)
+vendor/*
