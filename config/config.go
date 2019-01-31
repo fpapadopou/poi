@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/caarlos0/env"
-	model "github.com/fpapadopou/poi/datastore/model"
+	"github.com/fpapadopou/poi/datastore/database"
 	"github.com/joho/godotenv"
 )
 
@@ -25,10 +25,10 @@ func GetApplicationConfig() ApplicationConfig {
 }
 
 // GetDatabaseConfig returns a struct with database connection info
-func GetDatabaseConfig() model.DatabaseConfig {
+func GetDatabaseConfig() database.Config {
 	loadEnv()
 	// Parse environment configuration
-	var cfg model.DatabaseConfig
+	var cfg database.Config
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatalf("Failed to parse database configuration: %v", err)
 	}
