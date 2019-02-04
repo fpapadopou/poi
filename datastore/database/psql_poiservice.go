@@ -14,8 +14,8 @@ type POIService struct {
 }
 
 // GetAll returns all POIs found in Postgres DB
-func (p *POIService) GetAll() ([]model.POI, error) {
-	var pois []model.POI
+func (p *POIService) GetAll() ([]*model.POI, error) {
+	var pois []*model.POI
 	err := p.Conn.Model(&pois).Select()
 	if err != nil {
 		log.Fatalf("Got an error while fetching POIs: %v", err)
