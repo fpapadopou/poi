@@ -7,15 +7,13 @@ import (
 
 // DS (DataStore) provides all the database functionality used by the app
 type DS struct {
-	DatabaseProvider *database.POIService
+	DatabaseProvider database.Provider
 }
 
 // NewDS creates a new DataStore and returns a reference to it
 func NewDS(dbConfig database.Config) *DS {
-	connection := database.Connect(dbConfig)
-	service := &database.POIService{
-		Conn: connection,
+	provider := database.NewProvider(database.Connect(dbConfig))
+	return &DS{
+		DatabaseProvider: provider,
 	}
-
-	return &DS{DatabaseProvider: service}
 }
