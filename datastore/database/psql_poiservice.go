@@ -18,7 +18,8 @@ func (p *POIService) GetAll() ([]*model.POI, error) {
 	var pois []*model.POI
 	err := p.Conn.Model(&pois).Select()
 	if err != nil {
-		log.Fatalf("Got an error while fetching POIs: %v", err)
+		log.Printf("Got an error while fetching POIs: %v", err)
+		return nil, err
 	}
 	return pois, nil
 }
@@ -28,7 +29,8 @@ func (p *POIService) GetPOIByID(ID model.PrimaryKey) (*model.POI, error) {
 	poi := &model.POI{ID: ID}
 	err := p.Conn.Model(poi).Select()
 	if err != nil {
-		log.Fatalf("Got an error while fetching a POI: %v", err)
+		log.Printf("Got an error while fetching a POI: %v", err)
+		return nil, err
 	}
 	return poi, nil
 }
