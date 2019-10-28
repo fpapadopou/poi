@@ -3,10 +3,10 @@
 package database
 
 import (
+	"errors"
 	"log"
 
 	"github.com/fpapadopou/poi/datastore/model"
-	"github.com/go-pg/pg"
 )
 
 // POIService encapsulates functions for data transfer from/to the database
@@ -40,17 +40,19 @@ func (p *POIService) GetPOIByID(ID model.PrimaryKey) (*model.POI, error) {
 // CreatePOI adds a new POI to the store, creating a POSTGis point for the given lat/lon of the POI.
 func (p *POIService) CreatePOI(poi *model.POI) (*model.POI, error) {
 	// Since Postgres does not return the last insert ID by default, `RETURNING` keyword comes in handy
-	_, err := p.Conn.Model(&model.POI{}).Query(
-		pg.Scan(poi.ID, poi.Location, poi.CreatedAt),
-		`INSERT INTO poi (name, longitude, latitude, category, location) 
-		(?name, ?longitude, ?latitude, ?category, ST_MakePoint(?longitude, ?latitude))
+	res, err := p.Conn.QueryOne(poi, `
+		INSERT INTO poi (name, longitude, latitude, category, location)
+		VALUES (?name, ?longitude, ?latitude, ?category, ST_SetSRID(ST_MakePoint(?longitude, ?latitude),4326))
 		RETURNING id, location, created_at`,
-		poi,
-	)
+		poi)
 
 	if err != nil {
 		log.Printf("Got an error while creating POI: %v", err)
 		return nil, err
+	}
+
+	if res.RowsAffected() != 1 {
+		return nil, errors.New("no rows affected during insert")
 	}
 
 	return poi, nil
@@ -58,11 +60,20 @@ func (p *POIService) CreatePOI(poi *model.POI) (*model.POI, error) {
 
 // UpdatePOI updates the provided POI in the database and returns an error (if any).
 func (p *POIService) UpdatePOI(poi *model.POI) error {
+	err := p.Conn.Update(poi)
+	if err != nil {
+		log.Printf("Got an error while updating a POI: %v", err)
+		return err
+	}
 	return nil
 }
 
 // DeletePOI will return a POI object from the store and return an error (if any).
 func (p *POIService) DeletePOI(poi *model.POI) error {
-
+	err := p.Conn.Delete(poi)
+	if err != nil {
+		log.Printf("Got an error while deleting a POI: %v", err)
+		return err
+	}
 	return nil
 }
