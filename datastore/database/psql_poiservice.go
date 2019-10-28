@@ -62,7 +62,7 @@ func (p *POIService) UpdatePOI(poi *model.POI) error {
 }
 
 // DeletePOI will return a POI object from the store and return an error (if any).
-func (p * POIService) DeletePOI(poi *model.POI) error {
+func (p *POIService) DeletePOI(poi *model.POI) error {
 
 	return nil
 }
