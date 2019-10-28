@@ -19,5 +19,5 @@ type POI struct {
 	Category  json.RawMessage `json:"category,omitempty"`
 	CreatedAt time.Time       `json:"created_at,omitempty",sql:"default:now()"`
 	UpdatedAt time.Time       `json:"updated_at,omitempty"`
-	DeletedAt time.Time       `json:"updated_at,omitempty",pg:",soft_delete"`
+	DeletedAt time.Time       `json:"deleted_at,omitempty",pg:",soft_delete"`
 }
