@@ -8,6 +8,9 @@ import (
 type Provider interface {
 	GetAll() ([]*model.POI, error)
 	GetPOIByID(ID model.PrimaryKey) (*model.POI, error)
+	CreatePOI(p *model.POI) (*model.POI, error)
+	UpdatePOI(p *model.POI) error
+	DeletePOI(p *model.POI) error
 }
 
 func NewProvider(connection *Connection) Provider {
