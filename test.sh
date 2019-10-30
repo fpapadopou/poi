@@ -5,9 +5,8 @@ set -e
 echo "" > coverage.txt
 
 # Run migrations
-cd migrations
-go run migrate.go up
-cd -
+go run -tags psql ./migrations/migrate.go init
+go run -tags psql ./migrations/migrate.go up
 
 # Run tests
 go test -tags psql -coverprofile=profile.out -coverpkg=./... ./...
