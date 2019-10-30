@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fpapadopou/poi.svg?branch=master)](https://travis-ci.org/fpapadopou/poi)[![codecov](https://codecov.io/gh/fpapadopou/poi/branch/master/graph/badge.svg)](https://codecov.io/gh/fpapadopou/poi)
+
 # poi
 A Go app for submitting &amp; searching places of interest
 
